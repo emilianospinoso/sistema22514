@@ -13,15 +13,17 @@ app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'sistema22514'
 mysql.init_app(app)
 
-
 @app.route('/')
 def index(): 
-    sql="INSERT INTO `empleados` (`id`, `nombre`, `correo`, `foto`) VALUES (NULL, 'MARADO', 'DIAMARIA@ciudad.com.ar', 'fotolademessi.jpg');"
+    sql="SELECT * FROM `empleados`;"
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute(sql)
+    empleados=cursor.fetchall()
+    print(empleados)
     conn.commit()
-    return render_template('empleados/index.html')
+    return render_template('empleados/index.html',  empleados=empleados )
+
 
 @app.route('/create')
 def create():
